@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+
+import './App.css'
 import * as BooksAPI from './BooksAPI'
 import CurrentReads from './CurrentReads'
 import WantToRead from './WantToRead'
 import AlreadyRead from './AlreadyRead'
 import SearchBooks from './SearchBooks'
-import './App.css'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -24,21 +28,17 @@ class BooksApp extends React.Component {
     })
   }
 
-  // changeShelf = (book) => {
-  //   this.setState((state)) => ({
-  //    books =
-  //   })
-  // }
+  changeShelf = (book, newShelf) => {
+    book.shelf = newShelf
+    this.setState( state => ({}))
+    console.log(book.title)
+    BooksAPI.update(book, newShelf)
+  }
 
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchBooks
-           books={this.state.books}
-           showSearchPage={this.state.showSearchPage}
-          />
-        ) : (
+        <Route exact path='/' render={() =>(
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -46,21 +46,31 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 <CurrentReads
+                  onUpdateShelf={this.changeShelf}
                   books={this.state.books.filter((book) => book.shelf === 'currentlyReading')}
                 />
                 <WantToRead
+                  onUpdateShelf={this.changeShelf}
                   books={this.state.books.filter((book) => book.shelf === 'wantToRead')}
                 />
                 <AlreadyRead
+                  onUpdateShelf={this.changeShelf}
                   books={this.state.books.filter((book) => book.shelf === 'read')}
                 />
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              {/* <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a> */}
+              <Link to='/add'>Add a book</Link>
             </div>
           </div>
-        )}
+        )}/>
+        <Route path='/add' render={() => (
+          <SearchBooks
+           onUpdateShelf={this.changeShelf}
+           showSearchPage={this.state.showSearchPage}
+          />
+        )}/>
       </div>
     )
   }
