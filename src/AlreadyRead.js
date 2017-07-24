@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class AlreadyRead extends Component {
   render(){
     const { books, onUpdateShelf } = this.props
-    // console.log(books)
     return(
       <div className="bookshelf">
         <h2 className="bookshelf-title">Read</h2>

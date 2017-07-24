@@ -1,16 +1,6 @@
 import React, { Component } from 'react'
 
 class CurrentReads extends Component {
-
-  // state = {
-  //   value: ''
-  // }
-  //
-  // handleShelfChange = (event) => {
-  //   this.setState({value: event.target.value});
-  //   console.log(event.target.value)
-  // }
-
   render(){
     const { books, onUpdateShelf } = this.props
     return(

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BrowserRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
@@ -18,8 +17,7 @@ class BooksApp extends Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    books: [],
-    showSearchPage: false
+    books: []
   }
 
   componentDidMount() {
@@ -29,13 +27,36 @@ class BooksApp extends Component {
   }
 
   changeShelf = (book, newShelf) => {
-    book.shelf = newShelf
-    this.setState( state => ({}))
-    console.log(book.title)
-    BooksAPI.update(book, newShelf)
+    console.log("prev shelf " + book.shelf)
+    console.log("id of the book is " + book.id);
+    BooksAPI.update(book, newShelf).then((data) => {
+      console.log(data)
+      // if( this.state.books.find((b) => b.id === book.id)){
+      //   // get the the new books array
+      //   // book.shelf = newShelf
+      //   console.log("new shelf 1 " + book.shelf)
+      //   BooksAPI.getAll().then((books) => {
+      //     console.log(books)
+      //     this.setState({ books })
+      //   })
+      //   console.log(data[newShelf])
+      // } else {
+      //   console.log("new shelf 1" + book.shelf)
+      //   // book.shelf = newShelf
+        BooksAPI.getAll().then((books) => {
+          console.log(books)
+          this.setState({ books })
+        })
+        console.log("new shelf 2" + book.shelf)
+        // this.setState( state => ({
+        //   books: this.state.books.concat([book])
+        // }))
+      }
+    )
   }
 
   render() {
+    console.log("Number of books " + this.state.books.length)
     return (
       <div className="app">
         <Route exact path='/' render={() =>(
@@ -67,6 +88,7 @@ class BooksApp extends Component {
         )}/>
         <Route path='/add' render={() => (
           <SearchBooks
+           books={this.state.books}
            onUpdateShelf={this.changeShelf}
            showSearchPage={this.state.showSearchPage}
           />
