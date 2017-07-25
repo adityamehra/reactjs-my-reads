@@ -7,23 +7,21 @@ import ShelfOfBooks from './ShelfOfBooks'
 import SearchBooks from './SearchBooks'
 
 class BooksApp extends Component {
+ 
   state = {
     books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      console.log(books)
       this.setState({ books })
     })
   }
 
   changeShelf = (book, newShelf) => {
     BooksAPI.update(book, newShelf).then((data) => {
-      BooksAPI.getAll().then((books) => {
-        console.log(books)
-        this.setState({ books })
-      })
+      book.shelf = newShelf
+      this.setState(state => ({ books: state.books.filter(b => b.id !== book.id).concat([book]) }))
      }
     )
   }
@@ -39,6 +37,7 @@ class BooksApp extends Component {
         )}/>
         <Route path='/search' render={() => (
           <SearchBooks
+            books={this.state.books}
             onUpdateShelf={this.changeShelf}
           />
         )}/>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class CurrentReads extends Component {
+ 
   static propTypes = {
     books: PropTypes.array.isRequired,
     onUpdateShelf: PropTypes.func.isRequired
