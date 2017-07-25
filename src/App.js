@@ -36,7 +36,6 @@ class BooksApp extends Component {
   }
 
   render() {
-    console.log("Number of books " + this.state.books.length)
     return (
       <div className="app">
         <Route exact path='/' render={() =>(
@@ -62,15 +61,14 @@ class BooksApp extends Component {
             </div>
             <div className="open-search">
               {/* <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a> */}
-              <Link to='/add'>Add a book</Link>
+              <Link to='/search'>Add a book</Link>
             </div>
           </div>
         )}/>
-        <Route path='/add' render={() => (
+        <Route path='/search' render={() => (
           <SearchBooks
-           books={this.state.books}
-           onUpdateShelf={this.changeShelf}
-           showSearchPage={this.state.showSearchPage}
+            books={this.state.books}
+            onUpdateShelf={this.changeShelf}
           />
         )}/>
       </div>
