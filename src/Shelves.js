@@ -7,7 +7,7 @@ import CurrentReads from './CurrentReads'
 import WantToRead from './WantToRead'
 import AlreadyRead from './AlreadyRead'
 
-class ShelfOfBooks extends Component{
+class Shelves extends Component{
 
   static propTypes = {
     books: PropTypes.array.isRequired,
@@ -44,4 +44,4 @@ class ShelfOfBooks extends Component{
   }
 }
 
-export default ShelfOfBooks
+export default Shelves

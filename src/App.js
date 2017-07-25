@@ -3,11 +3,11 @@ import { Route } from 'react-router-dom'
 
 import './App.css'
 import * as BooksAPI from './BooksAPI'
-import ShelfOfBooks from './ShelfOfBooks'
+import Shelves from './Shelves'
 import SearchBooks from './SearchBooks'
 
 class BooksApp extends Component {
- 
+
   state = {
     books: []
   }
@@ -30,7 +30,7 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/' render={() =>(
-          <ShelfOfBooks
+          <Shelves
             books={this.state.books}
             onUpdateShelf={this.changeShelf}
           />
