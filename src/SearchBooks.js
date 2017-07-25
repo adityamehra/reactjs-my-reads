@@ -7,23 +7,26 @@ import * as BooksAPI from './BooksAPI'
 class SearchBooks extends Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired,
     onUpdateShelf: PropTypes.func.isRequired
   }
 
   state = {
     query: '',
-    showingBooks: []
+    showingBooks: [],
+    booksOnShelf: []
   }
-
-  booksOnShelf = this.props.books
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
     if(query.trim().length > 0) {
+
+      BooksAPI.getAll().then((books) => {
+        this.setState({booksOnShelf: books})
+      })
+
       BooksAPI.search(query).then((books) => {
         if(books !== undefined){
-          this.booksOnShelf.forEach((book1) => {
+          this.state.booksOnShelf.forEach((book1) => {
             books.forEach((book2) => {
               if(book1.id === book2.id){
                 book2.shelf = book1.shelf
@@ -40,9 +43,31 @@ class SearchBooks extends Component {
     }
   }
 
+  onUpdateShelf = (book, newShelf) => {
+    BooksAPI.update(book, newShelf).then((data) => {
+      BooksAPI.getAll().then((books) => {
+        console.log(books)
+        this.setState({ booksOnShelf: books })
+        this.state.booksOnShelf.forEach((book1) => {
+          this.state.showingBooks.forEach((book2) => {
+            if(book1.id === book2.id){
+              book2.shelf = book1.shelf
+            }
+            if(book1.id !== book2.id){
+              console.log('hello hello')
+            }
+          })
+        })
+        this.setState( {
+         showingBooks: this.state.showingBooks
+        })
+        this.props.onUpdateShelf(book, newShelf)
+      })
+    })
+  }
+
   render() {
     const { query } = this.state
-    const onUpdateShelf = this.props.onUpdateShelf
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -50,14 +75,6 @@ class SearchBooks extends Component {
             Close
           </Link>
           <div className="search-books-input-wrapper">
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
             <input
               type="text"
               placeholder="Search by title or author"
@@ -95,7 +112,7 @@ class SearchBooks extends Component {
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")` }}></div>
                         <div className="book-shelf-changer">
-                          <select  value={book.shelf} onChange={(event) => onUpdateShelf(book, event.target.value)}>
+                          <select  value={book.shelf} onChange={(event) => this.onUpdateShelf(book, event.target.value)}>
                             <option disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
