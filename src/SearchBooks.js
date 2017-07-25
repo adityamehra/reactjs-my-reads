@@ -5,6 +5,7 @@ import * as BooksAPI from './BooksAPI'
 
 
 class SearchBooks extends Component {
+
   static propTypes = {
     books: PropTypes.array.isRequired,
     onUpdateShelf: PropTypes.func.isRequired
@@ -15,11 +16,20 @@ class SearchBooks extends Component {
     showingBooks: []
   }
 
+  booksOnShelf = this.props.books
+
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
     if(query.trim().length > 0) {
       BooksAPI.search(query).then((books) => {
         if(books !== undefined){
+          this.booksOnShelf.forEach((book1) => {
+            books.forEach((book2) => {
+              if(book1.id === book2.id){
+                book2.shelf = book1.shelf
+              }
+            })
+          })
           this.setState({ showingBooks: books })
         } else {
             this.setState({ showingBooks: []})
@@ -32,7 +42,7 @@ class SearchBooks extends Component {
 
   render() {
     const { query } = this.state
-    const { onUpdateShelf } = this.props
+    const onUpdateShelf = this.props.onUpdateShelf
     return (
       <div className="search-books">
         <div className="search-books-bar">

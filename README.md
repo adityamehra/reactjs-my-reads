@@ -33,3 +33,11 @@ To simplify your development process, we've provided a backend server for you to
 
 ## Important
 The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
+
+## Contribution
+
+Please fork the project and make the contribution. Pull requests will be accepted upon approval.
+
+## Usage
+
+Feel free to fork or clone the repo.
