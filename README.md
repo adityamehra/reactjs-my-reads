@@ -36,8 +36,8 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 ## Contribution
 
-Please fork the project and make the contribution. Pull requests will be accepted upon approval.
+Please fork the project and make the contributions. Pull requests will be accepted upon approval.
 
 ## Usage
 
-Feel free to fork or clone the repo.
+This React JS application can be forked or cloned and used.
