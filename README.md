@@ -2,7 +2,11 @@
 
 This is the first project in the Udacity's React Nanodegree. This project makes use of the the techniques which are at fundamental of React like components, state management and routing using react-router-dom.
 
-## Follow these steps -
+## Project Overview
+
+<img src="https://github.com/adityamehra/reactjs-my-reads/blob/master/project.gif" />
+
+## Follow these steps
 
 `git clone https://github.com/adityamehra/reactjs-my-reads.git`
 
